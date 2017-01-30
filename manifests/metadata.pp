@@ -6,14 +6,13 @@ define shibboleth::metadata(
   $backing_file_dir         = $::shibboleth::conf_dir,
   $backing_file_name        = inline_template("<%= @provider_uri.split('/').last  %>"),
   $cert_dir                 = $::shibboleth::conf_dir,
-  $cert_file_name           = inline_template("<%= @cert_uri.split('/').last  %>"),
+  $cert_file_name           = undef,
   $provider_type            = 'XML',
   $provider_reload_interval = '7200',
   $metadata_filter_max_validity_interval  = '2419200'
 ){
 
   $backing_file = "${backing_file_dir}/${backing_file_name}"
-  $cert_file    = "${cert_dir}/${cert_file_name}"
 
   if $cert_uri {
     # Get the Metadata signing certificate
@@ -23,6 +22,9 @@ define shibboleth::metadata(
       creates => $cert_file,
       notify  => Service['httpd','shibd'],
     }
+
+    $_cert_file_name = pick($cert_filename, inline_template("<%= @cert_uri.split('/').last  %>"))
+    $cert_file    = "${cert_dir}/${_cert_file_name}"
     $aug_signature = [
       'set MetadataProvider/MetadataFilter[2]/#attribute/type Signature',
       "set MetadataProvider/MetadataFilter[2]/#attribute/certificate ${cert_file}",
