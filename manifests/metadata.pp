@@ -58,14 +58,14 @@ define shibboleth::metadata(
     lens    => 'Xml.lns',
     incl    => $::shibboleth::config_file,
     context => "/files${::shibboleth::config_file}/SPConfig/ApplicationDefaults",
-    changes => [
+    changes => flatten([
       "set MetadataProvider/#attribute/type ${provider_type}",
       "set MetadataProvider/#attribute/uri ${provider_uri}",
       "set MetadataProvider/#attribute/backingFilePath ${backing_file}",
       "set MetadataProvider/#attribute/reloadInterval ${provider_reload_interval}",
       $aug_valid_until,
-
-    ],
+      $aug_signature,
+    ]),
     notify  => Service['httpd','shibd'],
     require => [Exec["get_${name}_metadata_cert"],Augeas["shib_${name}_create_metadata_provider"]],
   }

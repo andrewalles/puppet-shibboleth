@@ -34,12 +34,12 @@ define shibboleth::sso (
       lens    => 'Xml.lns',
       incl    => $::shibboleth::config_file,
       context => "/files${::shibboleth::config_file}/SPConfig/ApplicationDefaults/Sessions",
-      changes => [
+      changes => flatten([
         $entityID_aug,
         $discoveryURL_aug,
         "set SSO/#attribute/discoveryProtocol ${discovery_protocol}",
         "set SSO/#attribute/ECP ${ecp_support}",
-      ],
+      ]),
       notify  => Service['httpd','shibd'],
     }
   }
