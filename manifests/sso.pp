@@ -7,9 +7,9 @@ define shibboleth::sso (
 ){
 
   if $discoveryURL and $idpURL {
-    err('shibboleth::sso must have one of discoveryURL or idpURL set, not both.')
+    fail('shibboleth::sso must have one of discoveryURL or idpURL set, not both.')
   } elsif !$discoveryURL and !$idpURL {
-    err('shibboleth::sso must have one of discoveryURL or idpURL set, not neither.')
+    fail('shibboleth::sso must have one of discoveryURL or idpURL set, not neither.')
   } else {
 
     if $idpURL {
@@ -19,9 +19,15 @@ define shibboleth::sso (
     }
 
     if $discoveryURL {
-      $discoveryURL_aug = "set SSO/#attribute/discoveryURL ${discoveryURL}"
+      $discoveryURL_aug = [
+        "set SSO/#attribute/discoveryURL ${discoveryURL}",
+        "set SSO/#attribute/discoveryProtocol ${discovery_protocol}",
+        ]
     } else {
-      $discoveryURL_aug = 'rm SSO/#attribute/discoveryURL'
+      $discoveryURL_aug = [
+      'rm SSO/#attribute/discoveryURL',
+      'rm SSO/#attribute/discoveryProtocol',
+      ]
     }
 
     augeas{"shib_sso_${name}_attributes":
