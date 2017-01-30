@@ -89,12 +89,18 @@ class shibboleth (
     notify  => Service['httpd','shibd'],
   }
 
+  $cookieProps = $handlerSSL ? {
+    true      => 'https',
+    default   => 'http',
+  }
+
   augeas{'sp_config_handlerSSL':
     lens    => 'Xml.lns',
     incl    => $config_file,
     context => "/files${config_file}/SPConfig/ApplicationDefaults",
     changes => [
       "set Sessions/#attribute/handlerSSL ${handlerSSL}",
+      "set Sessions/#attribute/cookieProp ${cookieProps}",
     ],
     notify  => Service['httpd','shibd'],
   }
