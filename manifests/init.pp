@@ -100,7 +100,7 @@ class shibboleth (
     context => "/files${config_file}/SPConfig/ApplicationDefaults",
     changes => [
       "set Sessions/#attribute/handlerSSL ${handlerSSL}",
-      "set Sessions/#attribute/cookieProp ${cookieProps}",
+      "set Sessions/#attribute/cookieProps ${cookieProps}",
     ],
     notify  => Service['httpd','shibd'],
   }
