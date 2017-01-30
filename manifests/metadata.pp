@@ -21,6 +21,7 @@ define shibboleth::metadata(
       command => "wget ${cert_uri} -O ${cert_file}",
       creates => $cert_file,
       notify  => Service['httpd','shibd'],
+      before  => Augeas["shib_${name}_create_metadata_provider"]
     }
 
     $_cert_file_name = pick($cert_filename, inline_template("<%= @cert_uri.split('/').last  %>"))
@@ -52,7 +53,6 @@ define shibboleth::metadata(
     ],
     onlyif  => 'match MetadataProvider/#attribute/uri size == 0',
     notify  => Service['httpd','shibd'],
-    require => Exec["get_${name}_metadata_cert"],
   }
 
   # This will update the attributes and child nodes if they change
@@ -69,7 +69,7 @@ define shibboleth::metadata(
       $aug_signature,
     ]),
     notify  => Service['httpd','shibd'],
-    require => [Exec["get_${name}_metadata_cert"],Augeas["shib_${name}_create_metadata_provider"]],
+    require => [Augeas["shib_${name}_create_metadata_provider"]],
   }
 
 }
