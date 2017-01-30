@@ -37,7 +37,6 @@ define shibboleth::sso (
       changes => flatten([
         $entityID_aug,
         $discoveryURL_aug,
-        "set SSO/#attribute/discoveryProtocol ${discovery_protocol}",
         "set SSO/#attribute/ECP ${ecp_support}",
       ]),
       notify  => Service['httpd','shibd'],
