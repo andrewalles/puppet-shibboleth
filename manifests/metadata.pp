@@ -4,11 +4,12 @@ define shibboleth::metadata(
   $provider_uri,
   $cert_uri                 = undef,
   $backing_file_dir         = $::shibboleth::conf_dir,
-  $backing_file_name        = inline_template("<%= @provider_uri.split('/').last  %>"),
+  $backing_file_name        = "${name}.xml",
   $cert_dir                 = $::shibboleth::conf_dir,
   $cert_file_name           = undef,
   $provider_type            = 'XML',
   $provider_reload_interval = '7200',
+  $custom_xml               = undef,
   $metadata_filter_max_validity_interval  = '2419200'
 ){
 
@@ -30,7 +31,7 @@ define shibboleth::metadata(
       'set MetadataProvider/MetadataFilter[2]/#attribute/type Signature',
       "set MetadataProvider/MetadataFilter[2]/#attribute/certificate ${cert_file}",
     ]
-  } else {
+  } else {"
     $aug_signature = 'rm MetadataProvider/MetadataFilter[2]/#attribute/type Signature'
   }
 

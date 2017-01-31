@@ -13,7 +13,7 @@
 
 # [Remember: No empty lines between comments and class definition]
 class shibboleth (
-  $admin              = $::shibboleth::params::admin,
+  $support_contact    = $::shibboleth::params::support_contact,
   $hostname           = $::shibboleth::params::hostname,
   $user               = $::shibboleth::params::user,
   $user_home          = $::shibboleth::params::user_home,

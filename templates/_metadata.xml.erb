@@ -1,0 +1,18 @@
+        <MetadataProvider type="<%= @provider_type %>" validate="true"
+          uri="<%= @provider_uri %>"
+          backingFilePath="<%= @backing_file %>"
+          reloadInterval="<%= @provider_reload_interval %>">
+          <%- if @metadata_filter_max_validity_interval > 0 -%>
+            <MetadataFilter type="RequireValidUntil" maxValidityInterval="@metadata_filter_max_validity_interval"/>
+          <%- end -%>
+          <%- if @cert_uri -%>
+            <MetadataFilter type="Signature" certificate="%= @cert_file %>"/>
+          <%- end -%>
+          <%= @custom_xml %>
+          <!-- NOT YET IMPLEMENTED
+            <DiscoveryFilter type="Blacklist" matcher="EntityAttributes" trimTags="true" 
+              attributeName="http://macedir.org/entity-category"
+              attributeNameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
+              attributeValue="http://refeds.org/category/hide-from-discovery" />
+          -->
+        </MetadataProvider>

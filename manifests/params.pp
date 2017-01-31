@@ -14,9 +14,9 @@
 # [Remember: No empty lines between comments and class definition]
 class shibboleth::params {
 
-  $admin              = $::apache::serveradmin
+  $support_contact    = $::apache::serveradmin
   $hostname           = $::fqdn
-  $logo_location      = '/shibboleth-sp/logo.jpg'
+  $logo_location      = undef
   $style_sheet        = '/shibboleth-sp/main.css'
   $conf_dir           = '/etc/shibboleth'
   $conf_file          = 'shibboleth2.xml'
