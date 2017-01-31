@@ -40,7 +40,7 @@ define shibboleth::metadata(
       "set MetadataProvider/MetadataFilter[1]/#attribute/maxValidityInterval ${metadata_filter_max_validity_interval}",
     ]
   } else {
-    $aug_valid_until = 'rm MetadataProvider/MetadataFilter[1]/#attribute/type RequireValidUntil'
+    $aug_valid_until = 'rm MetadataProvider/MetadataFilter'
   }
 
   # This puts the MetadataProvider entry in the 'right' place
