@@ -84,7 +84,8 @@ class shibboleth (
     context => "/files${config_file}/SPConfig/ApplicationDefaults",
     changes => [
       "set #attribute/entityID https://${hostname}/shibboleth",
-      "set Sessions/#attribute/handlerURL https://${hostname}/Shibboleth.sso",
+#      "set Sessions/#attribute/handlerURL https://${hostname}/Shibboleth.sso",
+      "set Sessions/#attribute/handlerURL /Shibboleth.sso",
     ],
     notify  => Service['httpd','shibd'],
   }
