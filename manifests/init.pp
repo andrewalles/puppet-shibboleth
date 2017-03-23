@@ -66,6 +66,7 @@ class shibboleth (
       "set Errors/#attribute/styleSheet ${style_sheet}",
     ],
     notify  => Service['httpd','shibd'],
+    require => File['shibboleth_config_file'],
   }
 
   augeas{'sp_config_consistent_address':
@@ -76,6 +77,7 @@ class shibboleth (
       "set Sessions/#attribute/consistentAddress ${consistent_address}",
     ],
     notify  => Service['httpd','shibd'],
+    require => File['shibboleth_config_file'],
   }
 
   augeas{'sp_config_hostname':
@@ -88,6 +90,7 @@ class shibboleth (
       "set Sessions/#attribute/handlerURL /Shibboleth.sso",
     ],
     notify  => Service['httpd','shibd'],
+    require => File['shibboleth_config_file'],
   }
 
   $cookieProps = $handlerSSL ? {
@@ -104,6 +107,7 @@ class shibboleth (
       "set Sessions/#attribute/cookieProps ${cookieProps}",
     ],
     notify  => Service['httpd','shibd'],
+    require => File['shibboleth_config_file'],
   }
 
   service{'shibd':
@@ -112,6 +116,7 @@ class shibboleth (
     hasrestart => true,
     hasstatus  => true,
     require    => [Class['apache::mod::shib'],User[$user]],
+    require => File['shibboleth_config_file'],
   }
 
 }
