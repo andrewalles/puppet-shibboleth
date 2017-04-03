@@ -115,8 +115,8 @@ class shibboleth (
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
-    require    => [Class['apache::mod::shib'],User[$user]],
-    require => File[$shibboleth_config_file],
+    require    => [Class['apache::mod::shib'],User[$user],
+    File[$shibboleth_config_file]],
   }
 
 }
